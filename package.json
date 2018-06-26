@@ -4,11 +4,12 @@
   "private": true,
   "dependencies": {
     "express": "^4.16.2",
-    "fs": "0.0.1-security",
+    "cors": "2.8.4",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-scripts": "1.1.4",
-    "request-promise": "^4.2.2"
+    "request-promise": "^4.2.2",
+    "body-parser": "1.18.3"
   },
   "scripts": {
     "client": "cd client && npm start",
