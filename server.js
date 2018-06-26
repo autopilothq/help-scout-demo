@@ -20,7 +20,9 @@ app.post('/api/saved-fields', async (req, res) => {
     if (err && err.code == "ENOENT") {
       fs.writeFile(`preferences/${apiKey}-preferences.json`, "", 'utf8', (err) => {
         if (err) {
-          return console.log(err);
+          res.statusCode = 500;
+          console.log(err);
+          return res.end();
         }
         console.log("The file was made!");
       });
@@ -78,12 +80,13 @@ app.post('/api/settings', async (req, res) => {
 // this is a persistence example and not intended to be used in production
   fs.writeFile(`preferences/${apiKey}-preferences.json`, content, 'utf8', (err) => {
     if (err) {
-      return console.log(err);
+      res.statusCode = 500;
+      console.log(err);
+      return res.end();
     }
     console.log("The file was saved!");
   });
   res.json({success : true});
-
 });
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
