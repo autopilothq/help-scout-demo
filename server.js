@@ -17,13 +17,17 @@ app.post('/api/saved-fields', async (req, res) => {
   let obj;
   fs.readFile(`preferences/${apiKey}-preferences.json`, 'utf8', (err, data) => {
     // if no file exists, make an empty file
-    if (err) {
+    if (err && err.code == "ENOENT") {
       fs.writeFile(`preferences/${apiKey}-preferences.json`, "", 'utf8', (err) => {
         if (err) {
           return console.log(err);
         }
         console.log("The file was made!");
       });
+    } else if (err) {
+      res.statusCode = 500;
+      console.log(err);
+      return res.end();
     }
     if (data) {
       obj = JSON.parse(data);
@@ -71,7 +75,7 @@ app.post('/api/settings', async (req, res) => {
   let fieldsToSave = req.body.fieldsToSave;
   let apiKey = req.body.apiKey;
   const content = JSON.stringify(fieldsToSave);
-
+// this is a persistence example and not intended to be used in production
   fs.writeFile(`preferences/${apiKey}-preferences.json`, content, 'utf8', (err) => {
     if (err) {
       return console.log(err);
