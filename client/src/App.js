@@ -39,10 +39,21 @@ class App extends Component {
         apiKey: this.state.apiKey
       })
     .then(response => {
+      let checked = this.state.checked || [];
+      let checkbox;
+      let x;
       response.data.forEach( (savedField) => {
-        this.setState({ [savedField]: true });
-        let x = document.getElementById(`${savedField}`);
-        x.checked = true;
+        checkbox = checked.find(({name})=> name === savedField);
+
+        if (!checkbox) {
+          checked.push({name: savedField, checked: true});
+          x = document.getElementById(`${savedField}`);
+          x.checked = true;
+        } else {
+          checkbox.checked = true;
+        }
+
+        this.setState({ checked });
       })
     })
     .catch(err => {
@@ -54,10 +65,6 @@ class App extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     // only store the field if checked === true
-    let keys = Object.keys(this.state);
-    let filtered = keys.filter( (key) => {
-      return this.state[key];
-    })
     let checkedFields = this.state.checked.filter(({checked})=> checked).map(({name})=>name);
 
     axios.post('http://localhost:5000/api/settings', {
@@ -75,8 +82,8 @@ class App extends Component {
 
   handleCheckboxChange = (e) => {
     // dynamically update state object when checkbox is clicked/unclicked
-    const checked = this.state.checked || [];
-    const checkbox = checked.find(({name})=> name === e.target.id);
+    let checked = this.state.checked || [];
+    let checkbox = checked.find(({name})=> name === e.target.id);
 
     if (!checkbox) {
       checked.push({name: e.target.id, checked: e.target.checked});
@@ -194,7 +201,7 @@ renderDefaultFields = () => {
           <div>
             {this.renderDefaultFields()}
             {this.renderCustomFields()}
-            
+
             {(this.state.apiKey) ? <button
             className="submitButton"
             onClick={this.handleSubmit}>
