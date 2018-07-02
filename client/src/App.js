@@ -122,27 +122,30 @@ renderDefaultFields = () => {
     <div>
       <h5>Standard Fields</h5>
       <div>
-        <label key="Email"><input id="email" key="Email" type="checkbox" checked={this.state.email} onChange={e => this.handleCheckboxChange(e)} />Email</label><br />
-        <label key="First Name"><input id="firstName" key="First Name" type="checkbox" checked={this.state.firstName} onChange={e => this.handleCheckboxChange(e)} />First Name</label><br />
-        <label key="Last Name"><input id="lastName" key="Last Name" type="checkbox" checked={this.state.lastName} onChange={e => this.handleCheckboxChange(e)} />Last Name</label><br />
-        <label key="Salutation"><input id="salutation" key="Salutation" type="checkbox" checked={this.state.salutation} onChange={e => this.handleCheckboxChange(e)} />Salutation</label><br />
-        <label key="Company"><input id="company" key="Company" type="checkbox" checked={this.state.company} onChange={e => this.handleCheckboxChange(e)} />Company</label><br />
-        <label key="Title"><input id="title" key="Title" type="checkbox" checked={this.state.title} onChange={e => this.handleCheckboxChange(e)} />Title</label><br />
-        <label key="Industry"><input id="industry" key="Industry" type="checkbox" checked={this.state.industry} onChange={e => this.handleCheckboxChange(e)} />Industry</label><br />
-        <label key="Phone"><input id="phone" key="Phone" type="checkbox" checked={this.state.phone} onChange={e => this.handleCheckboxChange(e)} />Phone</label><br />
-        <label key="Mobile"><input id="mobile" key="Mobile" type="checkbox" checked={this.state.mobile} onChange={e => this.handleCheckboxChange(e)} />Mobile</label><br />
-        <label key="Fax"><input id="fax" key="Fax" type="checkbox" checked={this.state.fax} onChange={e => this.handleCheckboxChange(e)} />Fax</label><br />
-        <label key="Website"><input id="website" key="Website" type="checkbox" checked={this.state.website} onChange={e => this.handleCheckboxChange(e)} />Website</label><br />
-        <label key="Mailing Street"><input id="mailingStreet" key="Mailing Street" checked={this.state.mailingStreet}  type="checkbox" onChange={e => this.handleCheckboxChange(e)} />Mailing Street</label><br />
-        <label key="Mailing City"><input id="mailingCity" key="Mailing City" type="checkbox" checked={this.state.mailingCity} onChange={e => this.handleCheckboxChange(e)} />Mailing City</label><br />
-        <label key="Mailing State"><input id="mailingState" key="Mailing State" type="checkbox" checked={this.state.mailingState} onChange={e => this.handleCheckboxChange(e)} />Mailing State</label><br />
-        <label key="Mailing Postal Code"><input id="mailingPostalCode" key="Mailing Postal Code" type="checkbox" checked={this.state.mailingPostalCode} onChange={e => this.handleCheckboxChange(e)} />Mailing Postal Code</label><br />
-        <label key="Mailing Country"><input id="mailingCountry" key="Mailing Country" type="checkbox" checked={this.state.mailingCountry} onChange={e => this.handleCheckboxChange(e)} />Mailing Country</label><br />
-        <label key="Lead Owner"><input id="leadOwner" key="Lead Owner" type="checkbox" checked={this.state.leadOwner} onChange={e => this.handleCheckboxChange(e)} />Lead Owner</label><br />
-        <label key="Lead Source"><input id="leadSource" key="Lead Source" type="checkbox" checked={this.state.leadSource} onChange={e => this.handleCheckboxChange(e)} />Lead Source</label><br />
-        <label key="Lead Status"><input id="leadStatus" key="Lead Status" type="checkbox" checked={this.state.leadStatus} onChange={e => this.handleCheckboxChange(e)} />Lead Status</label><br />
-        <label key="Twitter"><input id="twitter" key="Twitter" type="checkbox" checked={this.state.twitter} onChange={e => this.handleCheckboxChange(e)} />Twitter</label><br />
-        <label key="LinkedIn"><input id="linkedIn" key="LinkedIn" type="checkbox" checked={this.state.linkedIn} onChange={e => this.handleCheckboxChange(e)} />LinkedIn</label><br />
+        <label key="Name"><input id="Name" key="Email" type="checkbox" checked={this.state.name} onChange={e => this.handleCheckboxChange(e)} />Name</label><br />
+        <label key="Email"><input id="Email" key="Email" type="checkbox" checked={this.state.email} onChange={e => this.handleCheckboxChange(e)} />Email</label><br />
+        <label key="First Name"><input id="FirstName" key="First Name" type="checkbox" checked={this.state.firstName} onChange={e => this.handleCheckboxChange(e)} />First Name</label><br />
+        <label key="Last Name"><input id="LastName" key="Last Name" type="checkbox" checked={this.state.lastName} onChange={e => this.handleCheckboxChange(e)} />Last Name</label><br />
+        <label key="Salutation"><input id="Salutation" key="Salutation" type="checkbox" checked={this.state.salutation} onChange={e => this.handleCheckboxChange(e)} />Salutation</label><br />
+        <label key="Company"><input id="Company" key="Company" type="checkbox" checked={this.state.company} onChange={e => this.handleCheckboxChange(e)} />Company</label><br />
+        <label key="Title"><input id="Title" key="Title" type="checkbox" checked={this.state.title} onChange={e => this.handleCheckboxChange(e)} />Title</label><br />
+        <label key="Industry"><input id="Industry" key="Industry" type="checkbox" checked={this.state.industry} onChange={e => this.handleCheckboxChange(e)} />Industry</label><br />
+        <label key="Phone"><input id="Phone" key="Phone" type="checkbox" checked={this.state.phone} onChange={e => this.handleCheckboxChange(e)} />Phone</label><br />
+        <label key="Mobile"><input id="MobilePhone" key="Mobile" type="checkbox" checked={this.state.mobile} onChange={e => this.handleCheckboxChange(e)} />Mobile</label><br />
+        <label key="Fax"><input id="Fax" key="Fax" type="checkbox" checked={this.state.fax} onChange={e => this.handleCheckboxChange(e)} />Fax</label><br />
+        <label key="Website"><input id="Website" key="Website" type="checkbox" checked={this.state.website} onChange={e => this.handleCheckboxChange(e)} />Website</label><br />
+        <label key="Mailing Street"><input id="MailingStreet" key="Mailing Street" checked={this.state.mailingStreet} type="checkbox" onChange={e => this.handleCheckboxChange(e)} />Mailing Street</label><br />
+        <label key="Mailing City"><input id="MailingCity" key="Mailing City" type="checkbox" checked={this.state.mailingCity} onChange={e => this.handleCheckboxChange(e)} />Mailing City</label><br />
+        <label key="Mailing State"><input id="MailingState" key="Mailing State" type="checkbox" checked={this.state.mailingState} onChange={e => this.handleCheckboxChange(e)} />Mailing State</label><br />
+        <label key="Mailing Postal Code"><input id="MailingPostalCode" key="Mailing Postal Code" type="checkbox" checked={this.state.mailingPostalCode} onChange={e => this.handleCheckboxChange(e)} />Mailing Postal Code</label><br />
+        <label key="Mailing Country"><input id="MailingCountry" key="Mailing Country" type="checkbox" checked={this.state.mailingCountry} onChange={e => this.handleCheckboxChange(e)} />Mailing Country</label><br />
+        <label key="Lead Owner"><input id="LeadOwner" key="Lead Owner" type="checkbox" checked={this.state.leadOwner} onChange={e => this.handleCheckboxChange(e)} />Lead Owner</label><br />
+        <label key="Lead Source"><input id="LeadSource" key="Lead Source" type="checkbox" checked={this.state.leadSource} onChange={e => this.handleCheckboxChange(e)} />Lead Source</label><br />
+        <label key="Lead Status"><input id="Status" key="Lead Status" type="checkbox" checked={this.state.leadStatus} onChange={e => this.handleCheckboxChange(e)} />Lead Status</label><br />
+        <label key="Twitter"><input id="Twitter" key="Twitter" type="checkbox" checked={this.state.twitter} onChange={e => this.handleCheckboxChange(e)} />Twitter</label><br />
+        <label key="LinkedIn"><input id="LinkedIn" key="LinkedIn" type="checkbox" checked={this.state.linkedIn} onChange={e => this.handleCheckboxChange(e)} />LinkedIn</label><br />
+        <label key="Created At"><input id="created_at" key="Created At" type="checkbox" checked={this.state.created_at} onChange={e => this.handleCheckboxChange(e)} />Created At</label><br />
+        <label key="Updated At"><input id="updated_at" key="Updated At" type="checkbox" checked={this.state.updated_at} onChange={e => this.handleCheckboxChange(e)} />Updated At</label><br />
       </div>
     </div>
   );
