@@ -69,7 +69,7 @@ app.post('/api/custom-fields', async (req, res) => {
         })
       }
     }).catch((err) => {
-      if (err.statusCode === 401) {
+      if (err) {
         res.end()
       }
     }).then(() => {
