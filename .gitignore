@@ -4,8 +4,8 @@
 /node_modules
 /client/node_modules
 /preferences
-/config/prodConfig.js
 /config/localConfig.js
+/config/prodConfig.js
 
 # testing
 /coverage
