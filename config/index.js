@@ -13,7 +13,7 @@ const loadConfig = (file) => {
 };
 
 // start with defaults and overwrite
-const config = require('./defaults.js');
+let config = require('./defaults.js');
 
 let localConfig = loadConfig("./localConfig.js");
 if (!localConfig) {
@@ -21,7 +21,7 @@ if (!localConfig) {
 }
 
 // override configuration settings with local values
-for (let k of Object.keys(localConfig || {})) { 
+for (let k of Object.keys(localConfig || {})) {
   config[k] = localConfig[k];
 }
 
