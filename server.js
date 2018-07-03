@@ -123,55 +123,63 @@ app.post('/endpoint', async (req, res) => {
             return cb(err);
           }
           let key;
+          // use a mapping object to make the standard field names human-readable
+          const setStandardField = (field) => {
+            key = field;
+            if (mappingObject[key]) {
+              selectedFields.push([mappingObject[key], contactDoc[field]]);
+            }
+            else if (field === "created_at") {
+              let date = new Date(contactDoc[field]).toISOString().substr(0, 10);
+              dArr = date.split("-");
+              let formattedDate = dArr[2]+ "/" +dArr[1]+ "/" +dArr[0].substring(2);
+              selectedFields.push(["Created At", formattedDate]);
+            }
+            else if (field === "updated_at") {
+              let date = new Date(contactDoc[field]).toISOString().substr(0, 10);
+              dArr = date.split("-");
+              let formattedDate = dArr[2]+ "/" +dArr[1]+ "/" +dArr[0].substring(2);
+              selectedFields.push(["Updated At", formattedDate]);
+            }
+            else {
+              selectedFields.push([field, contactDoc[field]]);
+            }
+          }
 
-          // look for the fields in the response body
+          const setCustomField = (field) => {
+            if (contactDoc.custom_fields.length !== 0) {
+              for (let i = 0; i < contactDoc.custom_fields.length; i++) {
+                if (contactDoc.custom_fields[i].kind.split(" ").join("") === field && contactDoc.custom_fields[i].fieldType === "date") {
+                  let d = new Date(contactDoc.custom_fields[i].value);
+                    if (isNaN(d.getTime())) {
+                      let formattedDate = contactDoc.custom_fields[i].value;
+                    } else {
+                    let date = new Date(contactDoc.custom_fields[i].value).toISOString().substr(0, 10);
+                    dArr = date.split("-");
+                    let formattedDate = dArr[2]+ "/" +dArr[1]+ "/" +dArr[0].substring(2);
+                    selectedFields.push([contactDoc.custom_fields[i].kind, formattedDate]);
+                  }
+                }
+                else if (contactDoc.custom_fields[i].kind.split(" ").join("") === field) {
+                  selectedFields.push([contactDoc.custom_fields[i].kind, contactDoc.custom_fields[i]["value"]]);
+                }
+              }
+            }
+          }
+
+          if (!fieldSettings) {
+            markup = "You have not chosen any fields to display."
+          }
+
+          // look for the requested fields in the contact response body
           if (fieldSettings) {
             fieldSettings.forEach( (field) => {
               if (field in contactDoc) {
-                // use a mapping object to make the standard field names human-readable
-                key = field;
-
-                if (mappingObject[key]) { // key is whatever is inside the object
-                  selectedFields.push([mappingObject[key], contactDoc[field]]);
-                }
-                else if (field === "created_at") {
-                  let date = new Date(contactDoc[field]).toISOString().substr(0, 10);
-                  dArr = date.split("-");
-                  let formattedDate = dArr[2]+ "/" +dArr[1]+ "/" +dArr[0].substring(2);
-                  selectedFields.push(["Created At", formattedDate]);
-                }
-                else if (field === "updated_at") {
-                  let date = new Date(contactDoc[field]).toISOString().substr(0, 10);
-                  dArr = date.split("-");
-                  let formattedDate = dArr[2]+ "/" +dArr[1]+ "/" +dArr[0].substring(2);
-                  selectedFields.push(["Updated At", formattedDate]);
-                }
-                else {
-                  selectedFields.push([field, contactDoc[field]]);
-                }
+                setStandardField(field);
               } else {
-                if (contactDoc.custom_fields.length !== 0) {
-                  for (let i = 0; i < contactDoc.custom_fields.length; i++) {
-                    if (contactDoc.custom_fields[i].kind.split(" ").join("") === field && contactDoc.custom_fields[i].fieldType === "date") {
-                      let d = new Date(contactDoc.custom_fields[i].value);
-                        if (isNaN(d.getTime())) {
-                          let formattedDate = contactDoc.custom_fields[i].value;
-                        } else {
-                        let date = new Date(contactDoc.custom_fields[i].value).toISOString().substr(0, 10);
-                        dArr = date.split("-");
-                        let formattedDate = dArr[2]+ "/" +dArr[1]+ "/" +dArr[0].substring(2);
-                        selectedFields.push([contactDoc.custom_fields[i].kind, formattedDate]);
-                      }
-                    }
-                    else if (contactDoc.custom_fields[i].kind.split(" ").join("") === field) {
-                      selectedFields.push([contactDoc.custom_fields[i].kind, contactDoc.custom_fields[i]["value"]]);
-                    }
-                  }
-                }
+                setCustomField(field);
               }
             })
-          } else {
-            markup = "You have not chosen any fields to display."
           }
 
           cb();

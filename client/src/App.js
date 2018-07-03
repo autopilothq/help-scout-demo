@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import axios from 'axios';
-
-export const MeetupContext = React.createContext();
+const config = require('./config.js');
 
 class App extends Component {
   constructor(props) {
@@ -35,7 +34,7 @@ class App extends Component {
   }
 
   fetchSavedSettings = () => {
-    axios.post('http://localhost:5000/api/saved-fields', {
+    axios.post(config.savedFieldsURL, {
         apiKey: this.state.apiKey
       })
     .then(response => {
@@ -67,7 +66,7 @@ class App extends Component {
     // only store the field if checked === true
     let checkedFields = this.state.checked.filter(({checked})=> checked).map(({name})=>name);
 
-    axios.post('http://localhost:5000/api/settings', {
+    axios.post(config.settingsURL, {
         fieldsToSave: checkedFields,
         apiKey: this.state.apiKey
       })
@@ -96,7 +95,7 @@ class App extends Component {
 
   fetchFields = () => {
 
-    axios.post('http://localhost:5000/api/custom-fields', {
+    axios.post(config.customFieldsURL, {
         apiKey: this.state.apiKey
       })
       .catch(err => {
@@ -109,7 +108,7 @@ class App extends Component {
             this.setState({ [customField.replace(/ /g, "")]: false });
           })
         }
-      this.fetchSavedSettings();
+        this.fetchSavedSettings();
     })
   }
 
