@@ -121,7 +121,7 @@ renderDefaultFields = () => {
     <div>
       <h5>Standard Fields</h5>
       <div>
-        <label key="Name"><input id="Name" key="Email" type="checkbox" checked={this.state.name} onChange={e => this.handleCheckboxChange(e)} />Name</label><br />
+        <label key="Name"><input id="Name" key="Name" type="checkbox" checked={this.state.name} onChange={e => this.handleCheckboxChange(e)} />Name</label><br />
         <label key="Email"><input id="Email" key="Email" type="checkbox" checked={this.state.email} onChange={e => this.handleCheckboxChange(e)} />Email</label><br />
         <label key="First Name"><input id="FirstName" key="First Name" type="checkbox" checked={this.state.firstName} onChange={e => this.handleCheckboxChange(e)} />First Name</label><br />
         <label key="Last Name"><input id="LastName" key="Last Name" type="checkbox" checked={this.state.lastName} onChange={e => this.handleCheckboxChange(e)} />Last Name</label><br />
