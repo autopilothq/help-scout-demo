@@ -53,34 +53,31 @@ app.post('/api/custom-fields', async (req, res) => {
   let apiKey = req.body.apiKey;
   let customFields = [];
 
-  request({
-      url: `https://api2.autopilothq.com/v1/contacts/custom_fields`,
-      json: true,
-      headers: {
-        'Content-Type': 'application/json',
-        'autopilotapikey': apiKey
-      },
-    }, (err, response, body) => {
-      if (err) {
-        res.statusCode = 500;
-        console.log(err);
-        return res.end()
-      } else if (res.statusCode !== 200) {
-        res.statusCode = 401;
-        console.log(err);
-        return res.end()
-      } else {
-        Array.from(body).forEach ( (customField) => {
-          customFields.push(customField.name);
-        })
-      }
-    }).catch((err) => {
-      if (err) {
-        res.end()
-      }
-    }).then(() => {
-      res.json(customFields);
+  const reqOpts = {
+    url: `https://api2.autopilothq.com/v1/contacts/custom_fields`,
+    json: true,
+    headers: {
+      'Content-Type': 'application/json',
+      'autopilotapikey': apiKey
+    },
+  };
+
+  request(reqOpts, (err, response, body) => {
+    if (err) {
+      res.statusCode = 500;
+      console.log(err);
+      return res.end()
+    } else if (response.statusCode !== 200) {
+      console.log("Got status code from api", response.statusCode);
+      res.statusCode = 401;
+      return res.end()
+    } else {
+      Array.from(body).forEach ( (customField) => {
+        customFields.push(customField.name);
     });
+    res.json(customFields);
+    }
+  });
 });
 
 app.post('/api/settings', async (req, res) => {
