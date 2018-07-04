@@ -150,21 +150,24 @@ app.post('/help-scout/endpoint', async (req, res) => {
           }
 
           const setCustomField = (field) => {
-            if (contactDoc.custom_fields.length !== 0) {
-              for (let i = 0; i < contactDoc.custom_fields.length; i++) {
-                if (contactDoc.custom_fields[i].kind.split(" ").join("") === field && contactDoc.custom_fields[i].fieldType === "date") {
-                  let d = new Date(contactDoc.custom_fields[i].value);
+            let customFields = contactDoc.custom_fields;
+            if (customFields && customFields.length !== 0) {
+              let customField;
+              for (let i = 0; i < customFields.length; i++) {
+                customField = customFields[i];
+                if (customField].kind.split(" ").join("") === field && customField.fieldType === "date") {
+                  let d = new Date(customField.value);
                     if (isNaN(d.getTime())) {
-                      let formattedDate = contactDoc.custom_fields[i].value;
+                      let formattedDate = customField.value;
                     } else {
-                    let date = new Date(contactDoc.custom_fields[i].value).toISOString().substr(0, 10);
+                    let date = new Date(customField.value).toISOString().substr(0, 10);
                     dArr = date.split("-");
                     let formattedDate = dArr[2]+ "/" +dArr[1]+ "/" +dArr[0].substring(2);
-                    selectedFields.push([contactDoc.custom_fields[i].kind, formattedDate]);
+                    selectedFields.push([customField.kind, formattedDate]);
                   }
                 }
-                else if (contactDoc.custom_fields[i].kind.split(" ").join("") === field) {
-                  selectedFields.push([contactDoc.custom_fields[i].kind, contactDoc.custom_fields[i]["value"]]);
+                else if (customField.kind.split(" ").join("") === field) {
+                  selectedFields.push([customField.kind, customField["value"]]);
                 }
               }
             }
