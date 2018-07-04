@@ -36,9 +36,26 @@ $ cd client
 $ npm install
 $ cd ..
 $ node server.js
-$ npm run dev
+Make a folder called preferences inside the root directory
+$ npm run client
 ```
 
+### Building after deployment
+
+The server is constantly serving the endpoints via nginx. Navigate to the directory via:
+```bash
+ $ ssh manager
+ $ ssh stats-and-tools
+ $ cd help-scout-demo
+ $ git pull
+ $ npm install
+```
+To run the client:
+```bash
+ $ cd client
+ $ npm run build
+ ```
+ 
 ### Technologies
 
 This was built with a React front end and Node backend, however we are somewhat agnostic as to how the final version is implemented by Help Scout.
