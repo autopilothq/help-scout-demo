@@ -20,10 +20,10 @@ app.use(cors());
 app.post('/help-scout/api/saved-fields', async (req, res) => {
   let apiKey = req.body.apiKey;
   let obj;
-  fs.readFile(`preferences/${apiKey}-preferences.json`, 'utf8', (err, data) => {
+  fs.readFile(__dirname + '/' + `preferences/${apiKey}-preferences.json`, 'utf8', (err, data) => {
     // if no file exists, make an empty file
     if (err && err.code == "ENOENT") {
-      fs.writeFile(`preferences/${apiKey}-preferences.json`, "", 'utf8', (err) => {
+      fs.writeFile(__dirname + '/' + `preferences/${apiKey}-preferences.json`, "", 'utf8', (err) => {
         if (err) {
           res.statusCode = 500;
           console.log("Could not create settings file", err);
@@ -85,7 +85,7 @@ app.post('/help-scout/api/settings', async (req, res) => {
   let apiKey = req.body.apiKey;
   const content = JSON.stringify(fieldsToSave);
 // this is a persistence example and not intended to be used in production
-  fs.writeFile(`preferences/${apiKey}-preferences.json`, content, 'utf8', (err) => {
+  fs.writeFile(__dirname + '/' + `preferences/${apiKey}-preferences.json`, content, 'utf8', (err) => {
     if (err) {
       res.statusCode = 500;
       console.log("Could not save settings", err);
