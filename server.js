@@ -155,7 +155,7 @@ app.post('/help-scout/endpoint', async (req, res) => {
               let customField;
               for (let i = 0; i < customFields.length; i++) {
                 customField = customFields[i];
-                if (customField].kind.split(" ").join("") === field && customField.fieldType === "date") {
+                if (customField.kind.split(" ").join("") === field && customField.fieldType === "date") {
                   let d = new Date(customField.value);
                     if (isNaN(d.getTime())) {
                       let formattedDate = customField.value;
