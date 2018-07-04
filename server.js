@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 app.use(cors());
 
-app.post('/api/saved-fields', async (req, res) => {
+app.post('/help-scout/api/saved-fields', async (req, res) => {
   let apiKey = req.body.apiKey;
   let obj;
   fs.readFile(`preferences/${apiKey}-preferences.json`, 'utf8', (err, data) => {
@@ -49,7 +49,7 @@ app.post('/api/saved-fields', async (req, res) => {
   });
 });
 
-app.post('/api/custom-fields', async (req, res) => {
+app.post('/help-scout/api/custom-fields', async (req, res) => {
   let apiKey = req.body.apiKey;
   let customFields = [];
 
@@ -80,7 +80,7 @@ app.post('/api/custom-fields', async (req, res) => {
   });
 });
 
-app.post('/api/settings', async (req, res) => {
+app.post('/help-scout/api/settings', async (req, res) => {
   let fieldsToSave = req.body.fieldsToSave;
   let apiKey = req.body.apiKey;
   const content = JSON.stringify(fieldsToSave);
@@ -215,7 +215,6 @@ app.post('/endpoint', async (req, res) => {
       } else {
         res.json(response);
       }
-
   });
 })
 
