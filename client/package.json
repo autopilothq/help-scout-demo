@@ -1,6 +1,7 @@
 {
   "name": "helpscout-settings",
   "version": "0.1.0",
+  "homepage": "https://statsandtools.bislr.net/help-scout-settings/",
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",

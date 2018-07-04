@@ -36,9 +36,15 @@ app.post('/api/saved-fields', async (req, res) => {
       console.log(err);
       return res.end();
     }
+
     if (data) {
-      obj = JSON.parse(data);
-      res.json(obj);
+      try {
+        obj = JSON.parse(data);
+        res.json(obj);
+      } catch (err) {
+        res.statusCode = 400;
+        res.send('Invalid json');
+      }
     }
   });
 });
