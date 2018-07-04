@@ -26,14 +26,14 @@ app.post('/api/saved-fields', async (req, res) => {
       fs.writeFile(`preferences/${apiKey}-preferences.json`, "", 'utf8', (err) => {
         if (err) {
           res.statusCode = 500;
-          console.log(err);
+          console.log("Could not create settings file", err);
           return res.end();
         }
         console.log("New settings file made.");
       });
     } else if (err) {
       res.statusCode = 500;
-      console.log(err);
+      console.log("Could not read file", err);
       return res.end();
     }
 
@@ -65,7 +65,7 @@ app.post('/api/custom-fields', async (req, res) => {
   request(reqOpts, (err, response, body) => {
     if (err) {
       res.statusCode = 500;
-      console.log(err);
+      console.log("Could not get custom fields", err);
       return res.end()
     } else if (response.statusCode !== 200) {
       console.log("Got status code from api", response.statusCode);
@@ -74,8 +74,8 @@ app.post('/api/custom-fields', async (req, res) => {
     } else {
       Array.from(body).forEach ( (customField) => {
         customFields.push(customField.name);
-    });
-    res.json(customFields);
+      });
+      res.json(customFields);
     }
   });
 });
@@ -88,7 +88,7 @@ app.post('/api/settings', async (req, res) => {
   fs.writeFile(`preferences/${apiKey}-preferences.json`, content, 'utf8', (err) => {
     if (err) {
       res.statusCode = 500;
-      console.log(err);
+      console.log("Could not save settings", err);
       return res.end();
     }
     console.log("Settings saved.");
@@ -210,7 +210,7 @@ app.post('/endpoint', async (req, res) => {
     ], (err) => {
       if (err) {
         res.statusCode = 500;
-        console.log(err);
+        console.log("Unable to generate html", err);
         return res.end()
       } else {
         res.json(response);
