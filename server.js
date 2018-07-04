@@ -96,7 +96,7 @@ app.post('/help-scout/api/settings', async (req, res) => {
   res.json({success : true});
 });
 
-app.post('/endpoint', async (req, res) => {
+app.post('/help-scout/endpoint', async (req, res) => {
   let email = req.body.customer.email;
   let json = {};
   let selectedFields = [];
