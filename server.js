@@ -182,7 +182,7 @@ app.post('/help-scout/endpoint', async (req, res) => {
             markup = "You have not chosen any fields to display."
           }
 
-          if (contactNotFound) {
+          if (contactNotFound === true) {
             markup = "Customer not found."
           }
           // look for the requested fields in the contact response body
