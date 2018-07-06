@@ -19,33 +19,20 @@ app.use(cors());
 
 app.post('/help-scout/api/saved-fields', async (req, res) => {
   let apiKey = req.body.apiKey;
-  let obj;
-  fs.readFile(__dirname + '/' + `preferences/${apiKey}-preferences.json`, 'utf8', (err, data) => {
-    // if no file exists, make an empty file
-    if (err && err.code == "ENOENT") {
-      fs.writeFile(__dirname + '/' + `preferences/${apiKey}-preferences.json`, "", 'utf8', (err) => {
-        if (err) {
-          res.statusCode = 500;
-          console.log("Could not create settings file", err);
-          return res.end();
-        }
-        console.log("New settings file made.");
-      });
-    } else if (err) {
+  if (!apiKey) {
+    res.statusCode == 400;
+    res.send('No Api Key Provided');
+    return
+  }
+
+  getFieldSettings(apiKey, (err, fields) => {
+    if (err) {
       res.statusCode = 500;
-      console.log("Could not read file", err);
+      console.log("Error retrieving field settings", err);
       return res.end();
     }
-
-    if (data) {
-      try {
-        obj = JSON.parse(data);
-        res.json(obj);
-      } catch (err) {
-        res.statusCode = 400;
-        res.send('Invalid json');
-      }
-    }
+    res.statusCode = 200;
+    res.send(fields);
   });
 });
 
@@ -67,9 +54,13 @@ app.post('/help-scout/api/custom-fields', async (req, res) => {
       res.statusCode = 500;
       console.log("Could not get custom fields", err);
       return res.end()
-    } else if (response.statusCode !== 200) {
-      console.log("Got status code from api", response.statusCode);
+    } else if (response.statusCode === 401) {
+      console.log("Got unexpected status code from api", response.statusCode);
       res.statusCode = 401;
+      return res.end()
+    } else if (response.statusCode !== 200) {
+      console.log("Got unexpected status code from api", response.statusCode);
+      res.statusCode = 400;
       return res.end()
     } else {
       Array.from(body).forEach ( (customField) => {
@@ -84,7 +75,7 @@ app.post('/help-scout/api/settings', async (req, res) => {
   let fieldsToSave = req.body.fieldsToSave;
   let apiKey = req.body.apiKey;
   const content = JSON.stringify(fieldsToSave);
-// this is a persistence example and not intended to be used in production
+  // this is a persistence example and not intended to be used in production
   fs.writeFile(__dirname + '/' + `preferences/${apiKey}-preferences.json`, content, 'utf8', (err) => {
     if (err) {
       res.statusCode = 500;
@@ -106,18 +97,20 @@ app.post('/help-scout/endpoint', async (req, res) => {
   let apiKey = config.apiKey;
   let markup = "";
   let contactNotFound = false;
+  let notAuthorized = false;
 
   async.waterfall(
     [
       // request the contact details from the api
       (cb) => {
         getContactFromApi(email, (err, contact) => {
-          if (err) {
-            return cb(err);
-          }
-
-          if (contact.statusCode === 404) {
+          if (err && err.notAuthorized) {
             contactNotFound = true;
+            notAuthorized = true;
+          } else if (err && err.contactNotFound) {
+            contactNotFound = true;
+          } else if (err) {
+            return cb(err);
           }
           contactDoc = contact; // contact here is the body we cb()'ed in other file
           cb();
@@ -126,11 +119,13 @@ app.post('/help-scout/endpoint', async (req, res) => {
 
       // get the settings from the json file
       (cb) => {
+
         getFieldSettings(apiKey, (err, fieldSettings) => {
           if (err) {
             return cb(err);
           }
           let key;
+
           // use a mapping object to make the standard field names human-readable
           const setStandardField = (field) => {
             key = field;
@@ -178,24 +173,27 @@ app.post('/help-scout/endpoint', async (req, res) => {
             }
           }
 
+          if (notAuthorized === true) {
+            markup = "Provided api key was unathorized"
+            return cb(null)
+          } else if (contactNotFound === true) {
+            markup = "Customer not found."
+            return cb(null)
+          }
+
           if (!fieldSettings) {
             markup = "You have not chosen any fields to display."
+            return cb(null)
           }
 
-          if (contactNotFound === true) {
-            markup = "Customer not found."
-          }
           // look for the requested fields in the contact response body
-          if (fieldSettings) {
-            fieldSettings.forEach( (field) => {
-              if (field in contactDoc) {
-                setStandardField(field);
-              } else {
-                setCustomField(field);
-              }
-            })
-          }
-
+          fieldSettings.forEach( (field) => {
+            if (field in contactDoc) {
+              setStandardField(field);
+            } else {
+              setCustomField(field);
+            }
+          })
           cb();
         });
       },
