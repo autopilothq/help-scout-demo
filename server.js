@@ -105,6 +105,7 @@ app.post('/help-scout/endpoint', async (req, res) => {
   let fields;
   let apiKey = config.apiKey;
   let markup = "";
+  let contactNotFound = false;
 
   async.waterfall(
     [
@@ -113,6 +114,10 @@ app.post('/help-scout/endpoint', async (req, res) => {
         getContactFromApi(email, (err, contact) => {
           if (err) {
             return cb(err);
+          }
+
+          if (contact.statusCode === 404) {
+            contactNotFound = true;
           }
           contactDoc = contact; // contact here is the body we cb()'ed in other file
           cb();
@@ -177,6 +182,9 @@ app.post('/help-scout/endpoint', async (req, res) => {
             markup = "You have not chosen any fields to display."
           }
 
+          if (contactNotFound) {
+            markup = "Customer not found."
+          }
           // look for the requested fields in the contact response body
           if (fieldSettings) {
             fieldSettings.forEach( (field) => {
