@@ -54,7 +54,11 @@ app.post('/help-scout/api/custom-fields', async (req, res) => {
       res.statusCode = 500;
       console.log("Could not get custom fields", err);
       return res.end()
+<<<<<<< HEAD
     } else if (respons.statusCod === 401) {
+=======
+    } else if (response.statusCode === 401) {
+>>>>>>> 07dad96cc7d52b5de0d3e0e03e9a4b45d196d3d5
       console.log("Got unexpected status code from api", response.statusCode);
       res.statusCode = 401;
       return res.end()
