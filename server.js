@@ -191,7 +191,7 @@ app.post('/help-scout/endpoint', async (req, res) => {
             if (field in contactDoc) {
               setStandardField(field);
             } else {
-              setCustomField(field);
+              setCustomField(field.slice(3));
             }
           })
           cb();
