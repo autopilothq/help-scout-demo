@@ -6,6 +6,7 @@
 /preferences
 /config/localConfig.js
 /config/prodConfig.js
+/client/build
 
 # testing
 /coverage
